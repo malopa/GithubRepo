@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.tumaini.githubuser.adapters.UserAdapter;
 import com.tumaini.githubuser.config.GithubApi;
 import com.tumaini.githubuser.config.ServiceGenerator;
 import com.tumaini.githubuser.models.Repositories;
 import com.tumaini.githubuser.models.RespositoryAdapter;
+import com.tumaini.githubuser.models.SearchFeedback;
 import com.tumaini.githubuser.models.Users;
 
 import java.util.ArrayList;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setTitle("Repositories");
+        getSupportActionBar().setTitle("Github Repositories");
 
         recyclerView = findViewById(R.id.recyclerview);
         searchView = findViewById(R.id.search);
@@ -44,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                searchRepositories(query);
+                return true;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
@@ -53,6 +56,33 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getRepositories();
+    }
+
+    private void searchRepositories(String searchWord) {
+
+//        String url = "https://api.github.com/search/issues?q="+searchWord;
+        Toast.makeText(getApplicationContext(),searchWord,Toast.LENGTH_LONG).show();
+        GithubApi client = ServiceGenerator.createService(GithubApi.class);
+        Call<SearchFeedback> call = client.searchRepositories(searchWord);
+
+        call.enqueue(new Callback<SearchFeedback>() {
+            @Override
+            public void onResponse(Call<SearchFeedback> call, Response<SearchFeedback> response) {
+                if (response.isSuccessful()){
+                    SearchFeedback Repositories =  response.body();
+
+                    RespositoryAdapter repositoryAdapter = new RespositoryAdapter(MainActivity.this,Repositories.getItems());
+                    recyclerView.setAdapter(repositoryAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchFeedback> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+
     }
 
     private void getRepositories() {
