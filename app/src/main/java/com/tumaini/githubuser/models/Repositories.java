@@ -56,8 +56,10 @@ public class Repositories {
     @SerializedName("open_issues")
     private int open_issues;
 
+    @SerializedName("html_url")
+    private String html_url;
 
-    public Repositories(String id, String name, String repos_url, String full_name, String url, String blobs_url, String created_at, String updated_at, int stargazers_count, Boolean fork, String forks_url, int forks_count, Users owner, int forks, String language, int watchers, int open_issues) {
+    public Repositories(String id, String name, String repos_url, String full_name, String url, String blobs_url, String created_at, String updated_at, int stargazers_count, Boolean fork, String forks_url, int forks_count, Users owner, int forks, String language, int watchers, int open_issues, String html_url) {
         this.id = id;
         this.name = name;
         this.repos_url = repos_url;
@@ -75,6 +77,7 @@ public class Repositories {
         this.language = language;
         this.watchers = watchers;
         this.open_issues = open_issues;
+        this.html_url = html_url;
     }
 
     public String getId() {
@@ -143,6 +146,10 @@ public class Repositories {
 
     public int getOpen_issues() {
         return open_issues;
+    }
+
+    public String getHtml_url() {
+        return html_url;
     }
 }
 

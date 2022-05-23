@@ -45,7 +45,6 @@ public class RespositoryAdapter extends RecyclerView.Adapter<RespositoryAdapter.
 
 
         holder.name.setText("Repo Name: "+repositories.get(position).getName());
-//        holder.name.setText("Forks Count "+repositories.get(position).getForks_count());
         holder.author.setText("Author:  "+repositories.get(position).getOwner().getLogin());
         holder.watcher.setText("Watches: "+repositories.get(position).getWatchers());
         holder.forks.setText("Forks: "+repositories.get(position).getForks());
@@ -56,9 +55,7 @@ public class RespositoryAdapter extends RecyclerView.Adapter<RespositoryAdapter.
         holder.owner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String URL = "https://api.github.com/"+repo_url;
-//                Toast.makeText(context,URL,Toast.LENGTH_LONG).show();
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(repositories.get(position).getOwner().getUrl()));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(repositories.get(position).getOwner().getHtml_url()));
                 context.startActivity(browserIntent);
             }
         });
@@ -70,7 +67,8 @@ public class RespositoryAdapter extends RecyclerView.Adapter<RespositoryAdapter.
                 intent.putExtra("id",repositories.get(position).getFull_name());
                 intent.putExtra("repo",repositories.get(position).getName());
                 intent.putExtra("user",repositories.get(position).getOwner().getLogin());
-                intent.putExtra("user_url",repositories.get(position).getOwner().getUrl());
+                intent.putExtra("user_url",repositories.get(position).getOwner().getHtml_url());
+                intent.putExtra("repo_url",repositories.get(position).getHtml_url());
                 context.startActivity(intent);
             }
         });

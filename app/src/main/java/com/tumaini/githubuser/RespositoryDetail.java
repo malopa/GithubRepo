@@ -55,8 +55,9 @@ public class RespositoryDetail extends AppCompatActivity implements View.OnClick
         owner.setOnClickListener(this);
         repoInfo.setOnClickListener(this);
 
-        repo_url = getIntent().getStringExtra("id");
+//        repo_url = getIntent().getStringExtra("id");
         user_url = getIntent().getStringExtra("user_url");
+        repo_url = getIntent().getStringExtra("repo_url");
         String repo = getIntent().getStringExtra("repo");
         String user = getIntent().getStringExtra("user");
         getSupportActionBar().setTitle(repo);
@@ -67,7 +68,6 @@ public class RespositoryDetail extends AppCompatActivity implements View.OnClick
 
     private void getRepositoryData(String repo,String user) {
 
-//        Toast.makeText(this,"url  "+repo +" user "+user,Toast.LENGTH_LONG).show();
 
         GithubApi client = ServiceGenerator.createService(GithubApi.class);
         Call<Repositories> call = client.getRepositoryDetails(user,repo);
@@ -105,14 +105,11 @@ public class RespositoryDetail extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.repoInfo:
-                String URL = "https://api.github.com/"+repo_url;
-                Toast.makeText(getApplicationContext(),URL,Toast.LENGTH_LONG).show();
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(repo_url));
                 startActivity(browserIntent);
                 break;
 
             case R.id.owner:
-                Toast.makeText(getApplicationContext(),user_url,Toast.LENGTH_LONG).show();
                 Intent userBrowserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(user_url));
                 startActivity(userBrowserIntent);
                 break;
