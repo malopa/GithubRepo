@@ -155,19 +155,26 @@ public class MainActivity extends AppCompatActivity implements CompoundButton.On
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        switch(buttonView.getId()){
-            case R.id.stars:
-                sortRepositories(searchWord,"stars");
-                break;
+        if(!searchWord.equals("")){
 
-            case R.id.forks:
-                sortRepositories(searchWord,"forks");
-                break;
+            switch(buttonView.getId()){
+                case R.id.stars:
+                    sortRepositories(searchWord,"stars");
+                    break;
 
-            case R.id.updated:
-                sortRepositories(searchWord,"updated");
-                break;
+                case R.id.forks:
+                    sortRepositories(searchWord,"forks");
+                    break;
+
+                case R.id.updated:
+                    sortRepositories(searchWord,"updated");
+                    break;
+            }
+        }else{
+            sort.setVisibility(View.GONE);
+            Toast.makeText(getApplicationContext(),"Please search first to sort",Toast.LENGTH_LONG).show();
         }
+
     }
 
     private void  sortRepositories(String searchWord,String sortType){
