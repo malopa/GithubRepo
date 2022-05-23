@@ -6,6 +6,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.tumaini.githubuser.adapters.UserAdapter;
@@ -23,11 +27,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
 
     private RecyclerView recyclerView;
     private SearchView searchView;
+    private LinearLayout sort;
+
+    private RadioButton star,fork,update;
+
+    private String searchWord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerview);
         searchView = findViewById(R.id.search);
+        sort = findViewById(R.id.sort);
+        star = findViewById(R.id.stars);
+        fork = findViewById(R.id.forks);
+        update = findViewById(R.id.updated);
+        sort.setVisibility(View.GONE);
+
+
+        star.setOnCheckedChangeListener(this);
+        fork.setOnCheckedChangeListener(this);
+        update.setOnCheckedChangeListener(this);
+
         searchView.onActionViewExpanded();
         recyclerView.setHasFixedSize(true);
 
@@ -46,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchWord = query;
                 searchRepositories(query);
                 return true;
             }
@@ -60,8 +81,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void searchRepositories(String searchWord) {
 
-//        String url = "https://api.github.com/search/issues?q="+searchWord;
-        Toast.makeText(getApplicationContext(),searchWord,Toast.LENGTH_LONG).show();
         GithubApi client = ServiceGenerator.createService(GithubApi.class);
         Call<SearchFeedback> call = client.searchRepositories(searchWord);
 
@@ -69,9 +88,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SearchFeedback> call, Response<SearchFeedback> response) {
                 if (response.isSuccessful()){
-                    SearchFeedback Repositories =  response.body();
-
-                    RespositoryAdapter repositoryAdapter = new RespositoryAdapter(MainActivity.this,Repositories.getItems());
+                    SearchFeedback repositories =  response.body();
+                        if(repositories.getTotal_count() > 0){
+                            sort.setVisibility(View.VISIBLE);
+                        }
+                    RespositoryAdapter repositoryAdapter = new RespositoryAdapter(MainActivity.this,repositories.getItems());
                     recyclerView.setAdapter(repositoryAdapter);
                 }
             }
@@ -130,4 +151,49 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        switch(buttonView.getId()){
+            case R.id.stars:
+                sortRepositories(searchWord,"stars");
+                break;
+
+            case R.id.forks:
+                sortRepositories(searchWord,"forks");
+                break;
+
+            case R.id.updated:
+                sortRepositories(searchWord,"updated");
+                break;
+        }
+    }
+
+    private void  sortRepositories(String searchWord,String sortType){
+        GithubApi client = ServiceGenerator.createService(GithubApi.class);
+        Call<SearchFeedback> call = client.sortSearchRepositories(searchWord,sortType);
+
+        call.enqueue(new Callback<SearchFeedback>() {
+            @Override
+            public void onResponse(Call<SearchFeedback> call, Response<SearchFeedback> response) {
+                if (response.isSuccessful()){
+                    SearchFeedback repositories =  response.body();
+                    if(repositories.getTotal_count() > 0){
+                        sort.setVisibility(View.VISIBLE);
+                    }
+                    RespositoryAdapter repositoryAdapter = new RespositoryAdapter(MainActivity.this,repositories.getItems());
+                    recyclerView.setAdapter(repositoryAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchFeedback> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+    }
+
 }

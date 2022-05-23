@@ -17,7 +17,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp">
+            android:padding="16dp"
+            android:orientation="vertical"
+            >
 
             <androidx.appcompat.widget.SearchView
                 android:layout_width="match_parent"
@@ -29,6 +31,59 @@
                 app:queryHint="Search repository ..."
                 android:background="@drawable/search"
                 />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:id="@+id/sort"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="sort By:"
+                    android:textSize="14sp"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Stars"
+                        android:id="@+id/stars"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"
+
+                        />
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Forks"
+                        android:id="@+id/forks"
+                        android:layout_weight="1"
+
+                        />
+
+                    <RadioButton
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="Updated"
+                        android:id="@+id/updated"
+                        android:layout_weight="1"
+                        android:textColor="@color/colorPrimary"
+
+                        />
+                </RadioGroup>
+
+            </LinearLayout>
 
         </LinearLayout>
 

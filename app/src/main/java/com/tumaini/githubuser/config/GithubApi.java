@@ -38,4 +38,10 @@ public interface GithubApi {
             "Authorization: Basic bWFsb3Bh"})
     @GET("search/repositories")
     Call<SearchFeedback> searchRepositories(@Query("q") String query);
+
+
+    @Headers({"Accept: application/vnd.github.v3+json",
+            "Authorization: Basic bWFsb3Bh"})
+    @GET("search/repositories")
+    Call<SearchFeedback> sortSearchRepositories(@Query("q") String searchWord,@Query("sort") String type);
 }
