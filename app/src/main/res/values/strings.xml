@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">GithubUser</string>
+    <string name="more_about_owner">More about Owner</string>
+    <string name="more_about_repo">More about Repo</string>
+</resources>
