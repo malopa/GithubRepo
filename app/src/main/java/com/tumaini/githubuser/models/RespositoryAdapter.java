@@ -64,7 +64,7 @@ public class RespositoryAdapter extends RecyclerView.Adapter<RespositoryAdapter.
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RespositoryDetail.class);
-                intent.putExtra("id",repositories.get(position).getFull_name());
+                intent.putExtra("id",repositories.get(position).getOwner().getLogin());
                 intent.putExtra("repo",repositories.get(position).getName());
                 intent.putExtra("user",repositories.get(position).getOwner().getLogin());
                 intent.putExtra("user_url",repositories.get(position).getOwner().getHtml_url());

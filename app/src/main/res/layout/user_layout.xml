@@ -38,6 +38,8 @@
             android:text="malopa
 "           android:textSize="14sp"
             android:layout_weight="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold"
 
             />
 
@@ -70,6 +72,9 @@
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/author"
+                android:textColor="@color/colorPrimaryDark"
+
+
                 />
 
             <TextView
@@ -80,6 +85,8 @@
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/watcher"
+                android:textColor="@color/colorPrimaryDark"
+
                 />
 
             <TextView
@@ -90,6 +97,8 @@
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/issue"
+                android:textColor="@color/colorPrimaryDark"
+
                 />
 
 
@@ -101,6 +110,8 @@
                 android:textSize="14sp"
                 android:layout_marginTop="5dp"
                 android:id="@+id/forks"
+                android:textColor="@color/colorPrimaryDark"
+
                 />
 
 

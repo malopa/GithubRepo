@@ -19,9 +19,9 @@ public interface GithubApi {
     Call<List<Users>> getGithuUsers();
 
 
-    @Headers("User-Agent:malopa")
-    @GET("users/{username}/repos")
-    Call<List<Repositories>> getUserRepositories(@Path("username") String username);
+    @Headers("Accept: application/vnd.github.v3+json")
+    @GET("users/{username}")
+    Call<Users> getUserInfo(@Path("username") String username);
 
     @Headers({"Accept: application/vnd.github.v3+json",
             "Authorization: Basic bWFsb3Bh"})

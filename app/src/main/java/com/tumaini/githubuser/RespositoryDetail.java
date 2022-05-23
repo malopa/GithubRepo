@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.tumaini.githubuser.config.GithubApi;
 import com.tumaini.githubuser.config.ServiceGenerator;
 import com.tumaini.githubuser.models.Repositories;
+import com.tumaini.githubuser.models.Users;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -27,7 +28,8 @@ public class RespositoryDetail extends AppCompatActivity implements View.OnClick
 
     private CircleImageView avator;
     private TextView name;
-    private TextView author,created_at,updated_at,language,forks,watcher,repoInfo,owner;
+    private TextView author,created_at,updated_at,language,forks,watcher,repoInfo,owner,
+    full_name,public_repo,follower,company,blog;
     private LinearLayout repo;
     private String repo_url,user_url;
     @Override
@@ -51,18 +53,58 @@ public class RespositoryDetail extends AppCompatActivity implements View.OnClick
         owner = findViewById(R.id.owner);
         repoInfo = findViewById(R.id.repoInfo);
 
+        full_name =findViewById(R.id.full_name);
+        public_repo = findViewById(R.id.public_repos);
+        follower = findViewById(R.id.followers);
+        company = findViewById(R.id.company);
+        blog = findViewById(R.id.blog);
+
 
         owner.setOnClickListener(this);
         repoInfo.setOnClickListener(this);
 
-//        repo_url = getIntent().getStringExtra("id");
+        String user_info = getIntent().getStringExtra("id");
         user_url = getIntent().getStringExtra("user_url");
         repo_url = getIntent().getStringExtra("repo_url");
         String repo = getIntent().getStringExtra("repo");
         String user = getIntent().getStringExtra("user");
+
+
+        getUserInfo(user_info);
         getSupportActionBar().setTitle(repo);
 
         getRepositoryData(repo,user);
+
+    }
+
+    private void getUserInfo(String user_info) {
+
+
+        GithubApi client = ServiceGenerator.createService(GithubApi.class);
+        Call<Users> call = client.getUserInfo(user_info);
+
+        call.enqueue(new Callback<Users>() {
+            @Override
+            public void onResponse(Call<Users> call, Response<Users> response) {
+
+                if(response.isSuccessful()){
+                    Users user = response.body();
+
+                    full_name.setText("Name : "+user.getName());
+                    company.setText("Company: "+user.getCompany());
+                    blog.setText("Blog : "+user.getBlog());
+                    public_repo.setText("Public Repo: "+user.getPublic_repos());
+                    follower.setText("Followers: "+user.getFollowers());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Users> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
 
     }
 

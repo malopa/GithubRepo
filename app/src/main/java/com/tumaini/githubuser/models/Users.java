@@ -10,6 +10,24 @@ public class Users {
     @SerializedName("id")
     private int id;
 
+    @SerializedName("name")
+    private String name;
+
+    @SerializedName("company")
+    private String company;
+
+    @SerializedName("location")
+    private String location;
+
+    @SerializedName("public_repos")
+    private int public_repos;
+
+    @SerializedName("followers")
+    private int followers;
+
+    @SerializedName("blog")
+    private String blog;
+
     @SerializedName("node_id")
     private String node_id;
 
@@ -50,9 +68,15 @@ public class Users {
     private Boolean site_admin;
 
 
-    public Users(String login, int id, String node_id, String avatar_url, String url, String html_url, String followers_url, String following_url, String gists_url, String starred_url, String subscriptions_url, String organizations_url, String repos_url, String type, Boolean site_admin) {
+    public Users(String login, int id, String name, String company, String location, int public_repos, int followers, String blog, String node_id, String avatar_url, String url, String html_url, String followers_url, String following_url, String gists_url, String starred_url, String subscriptions_url, String organizations_url, String repos_url, String type, Boolean site_admin) {
         this.login = login;
         this.id = id;
+        this.name = name;
+        this.company = company;
+        this.location = location;
+        this.public_repos = public_repos;
+        this.followers = followers;
+        this.blog = blog;
         this.node_id = node_id;
         this.avatar_url = avatar_url;
         this.url = url;
@@ -74,6 +98,30 @@ public class Users {
 
     public int getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public int getPublic_repos() {
+        return public_repos;
+    }
+
+    public int getFollowers() {
+        return followers;
+    }
+
+    public String getBlog() {
+        return blog;
     }
 
     public String getNode_id() {
